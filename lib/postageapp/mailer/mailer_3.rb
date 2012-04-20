@@ -74,6 +74,11 @@ class PostageApp::Mailer < ActionMailer::Base
     value ? @_message.arguments['variables'] = value : @_message.arguments['variables']
   end
   
+  # Omitt subject so that the one specified in the template will get used
+  def postageapp_use_subject_in_template
+    @postageapp_use_subject_in_template = true
+  end
+  
   def attachments
     @_attachments ||= Attachments.new(@_message)
   end
@@ -127,7 +132,7 @@ class PostageApp::Mailer < ActionMailer::Base
     
     m.arguments['headers'] ||= { }
     m.arguments['headers']['from'] = from
-    m.arguments['headers']['subject'] = subject
+    m.arguments['headers']['subject'] = subject unless @postageapp_use_subject_in_template
     m.arguments['recipients'] = recipients
     
     m

@@ -107,7 +107,7 @@ class PostageApp::Mailer < ActionMailer::Base
     
     # Handle defaults
     headers = headers.reverse_merge(default_values)
-    headers[:subject] ||= default_i18n_subject
+    headers[:subject] ||= default_i18n_subject unless @postageapp_use_subject_in_template
     
     # Set configure delivery behavior
     wrap_delivery_behavior!(headers.delete(:delivery_method))
